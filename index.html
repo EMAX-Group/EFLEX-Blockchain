@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+<title>EFLEX</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="./index.js"></script>
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+
+body, html {
+  height: 100%;
+  line-height: 1.8;
+}
+
+/* Full height image header */
+.bgimg-1 {
+  background-position: center;
+  background-size: cover;
+  background-image: url("images/energy.jpg");
+  min-height: 100%;
+  background-color: light-grey;
+}
+
+.w3-bar .w3-button {
+  padding: 16px;
+}
+</style>
+<body>
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-light-grey w3-card" id="myNavbar">
+    <a href="#home" class="w3-bar-item w3-button w3-wide "><i class="fa fa-bolt w3-margin-right"></i>EFLEX</a>
+    <!-- Right-sided navbar links -->
+    <div class="w3-right w3-hide-small">
+      <a href="#" class="w3-bar-item w3-padding-large w3-button" onclick="showhide(event, 'HOME')">HOME</a>
+	    <div class="w3-dropdown-hover w3-hide-small">
+            <button class="w3-padding-large w3-button" title="More">BUY <i class="fa fa-caret-down"></i></button>     
+                <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                    <a href="#" onclick="document.getElementById('viewResourcesModal').style.display='block'; App.getResources()" class="w3-bar-item w3-button">Request Resource</a>
+                    <a href="#" class="w3-bar-item w3-button" onclick="document.getElementById('payModal').style.display='block'">Pay</a>
+                </div>
+        </div>
+        <div class="w3-dropdown-hover w3-hide-small">
+            <button class="w3-padding-large w3-button" title="More">SELL <i class="fa fa-caret-down"></i></button>     
+                <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                    <a href="#" onclick="document.getElementById('listresourceModal').style.display='block'" class="w3-bar-item w3-button">List Resource</a>
+                    <a href="#" class="w3-bar-item w3-button" onclick="document.getElementById('offerResourcesModal').style.display='block'; App.getRequests()">Offer Resource</a>
+                 <!--   <a href="#" class="w3-bar-item w3-button">Set Status</a>-->
+                </div>
+        </div>
+	    <div class="w3-dropdown-hover w3-hide-small">
+            <button class="w3-padding-large w3-button" title="More"><i class="fa fa-lock"></i> ADMIN</i></button>     
+                <div class="w3-dropdown-content w3-bar-block w3-card-4">
+	                <a href="#registeredEntities" class="w3-bar-item w3-button" onclick="App.getRegisteredUsers1(); myFunction(); ">Approve Registered</a>
+                    <a href="#" class="w3-bar-item w3-button" onclick="document.getElementById('setroleModal').style.display='block'">Set Company Type</a>
+                   <!--  <a href="#" class="w3-bar-item w3-button" onclick="document.getElementById('getroleModal').style.display='block'">Get Company Type</a>-->
+                  <!--  <a href="#" class="w3-bar-item w3-button">Conflict Withdraw</a>-->
+                </div>
+        </div>
+		 <a href="#" class="w3-bar-item w3-padding-large w3-button"></a>
+    </div>
+	
+    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+
+    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+</div>
+
+
+<!-- Header with full-height image -->
+<header class="bgimg-1 w3-display-container w3-grayscale-min sh" id="home">
+    <div class="w3-display-left w3-text-indigo" style="padding:48px">
+        <span class="w3-jumbo w3-hide-small">EFLEX MARKETPLACE</span><br>
+        <span class="w3-large" style = "margin-left:5px">Start Trading Energy Resources</span>
+        <p><button class="w3-button w3-blue-gray w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off" 
+	    onclick="document.getElementById('registerModal').style.display='block'"  style = "margin-left:5px"><b>Register</b></button></p>
+    </div> 
+</header>
+
+ <!-- Register Modal -->
+ <div id="registerModal" class="w3-modal" >
+    <div class="w3-modal-content w3-animate-top w3-card-4" style = "width:30%">
+      <header class="w3-container w3-teal w3-center w3-padding-12"> 
+        <span onclick="document.getElementById('registerModal').style.display='none'" 
+        class="w3-button w3-teal w3-xlarge w3-display-topright">×</span>
+        <h3 class="w3-wide"><i class="fa fa-suitcase w3-margin-right"></i>Register</h3>
+      </header>
+      <div class="w3-container" style = "width:100%">
+            <p><label for="register_wallet_address"> Wallet Address</label></p>
+            <input class="w3-input w3-border" type="text" id="register_wallet_address" placeholder="0x00..">
+		    <p><label for="register_company_name"> Company Name</label></p>
+            <input class="w3-input w3-border" type="text" id="register_company_name" placeholder="abc..">
+		    <p><label for="register_entity_type"> Company Type</label></p>
+		        <select class="w3-select w3-border" name="option" id="register_entity_type">
+                    <option value="" disabled selected>Choose</option>
+                    <option value="DSO" >DSO</option>
+                    <option value="TSO" >TSO</option>
+                    <option value="Aggregator" >Aggregator</option>
+                </select> 
+            <p><label for="register_location"> Location</label></p>
+            <input class="w3-input w3-border" type="text" id="register_location" placeholder="Belgium">
+            <button class="w3-button w3-block w3-teal w3-padding-16 w3-section w3-right" onclick="App.register()">Register <i class="fa fa-check"></i></button>
+            <button class="w3-button w3-red w3-section" onclick="document.getElementById('registerModal').style.display='none'">Close <i class="fa fa-remove"></i></button>
+      </div>
+    </div>
+  </div>
+  
+  
+    
+ <!-- Registered Modal --
+ <div id="registeredModal" class="w3-modal">
+    <div class="w3-modal-content w3-animate-top w3-card-4" style = "width:30%">
+      <header class="w3-container w3-dark-grey w3-center w3-padding-12"> 
+        <span onclick="document.getElementById('registeredModal').style.display='none'" 
+       class="w3-button w3-dark-grey w3-xlarge w3-display-topright">×</span>
+        <h3 class="w3-wide">Registered Entities</h3>
+      </header>
+	  <div class="w3-container">
+  <table class="w3-table w3-striped w3-border" id = "getEntityTable"> 
+                <tr>
+                  <th>En.Id</th>
+                  <th>Wallet Address</th>
+                  <th>Company Name</th>
+                  <th>Location</th>
+                  <th>Company Type</th>
+				  <th>Status</th>
+                </tr>    				
+  </table>
+</div>
+      <div class="w3-container">
+       <p><label for="setRole_wallet_address">Entity Wallet Address</label></p>
+        <input class="w3-input w3-border" type="text" id="setRole_wallet_address" placeholder="0x00..">
+		 <p><label for="set_role"> Company Name</label></p>
+         <select class="w3-select w3-border" name="option" id="set_role">
+         <option value="" disabled selected>Choose</option>
+         <option value="DSO" >DSO</option>
+         <option value="TSO">TSO</option>
+         <option value="Aggregator">Aggregator</option>
+         </select> 
+        <button class="w3-button w3-block w3-dark-grey w3-padding-16 w3-section w3-right" onclick="App.setRole()">Set Company Type</button>
+        <button class="w3-button w3-red w3-section" onclick="document.getElementById('registeredModal').style.display='none'">Close <i class="fa fa-remove"></i></button>
+      </div>
+    </div>
+  </div>
+  ->
+  
+  
+  
+ <!-- Set Role Modal -->
+ <div id="setroleModal" class="w3-modal">
+    <div class="w3-modal-content w3-animate-top w3-card-4" style = "width:30%">
+        <header class="w3-container w3-dark-grey w3-center w3-padding-12"> 
+           <span onclick="document.getElementById('setroleModal').style.display='none'" 
+           class="w3-button w3-dark-grey w3-xlarge w3-display-topright">×</span>
+           <h3 class="w3-wide">Set Company Type</h3>
+        </header>
+    <div class="w3-container">
+        <p><label for="setRole_wallet_address">Entity Wallet Address</label></p>
+        <input class="w3-input w3-border" type="text" id="setRole_wallet_address" placeholder="0x00..">
+		<p><label for="set_role"> Company Name</label></p>
+        <select class="w3-select w3-border" name="option" id="set_role">
+            <option value="" disabled selected>Choose</option>
+            <option value="DSO" >DSO</option>
+            <option value="TSO">TSO</option>
+            <option value="Aggregator">Aggregator</option>
+        </select> 
+        <button class="w3-button w3-block w3-dark-grey w3-padding-16 w3-section w3-right" onclick="App.setRole()">Set</button>
+        <button class="w3-button w3-red w3-section" onclick="document.getElementById('setroleModal').style.display='none'">Close <i class="fa fa-remove"></i></button>
+     </div>
+    </div>
+ </div>
+  
+  
+  <!-- Get Role Modal -->
+ <div id="getroleModal" class="w3-modal">
+    <div class="w3-modal-content w3-animate-top w3-card-4" style = "width:30%">
+        <header class="w3-container w3-dark-grey w3-center w3-padding-12"> 
+           <span onclick="document.getElementById('getroleModal').style.display='none'" 
+           class="w3-button w3-dark-grey w3-xlarge w3-display-topright">×</span>
+           <h3 class="w3-wide">Get Company Type</h3>
+       </header>
+        <div class="w3-container">
+            <p><label for="getRole_wallet_address">Entity Wallet Address</label></p>
+            <input class="w3-input w3-border" type="text" id="getRole_wallet_address" placeholder="0x00..">
+            <button class="w3-button w3-block w3-dark-grey w3-padding-16 w3-section w3-right " style = "50%" onclick="App.getRole()">Get</button>
+		    <div class="w3-container padding-16">
+                <table class="w3-table w3-striped w3-border" id = "getRoleTable"> 
+                    <tr>
+                       <th>En.Id</th>
+                       <th>Wallet Address</th>
+                       <th>Company Name</th>
+                       <th>Location</th>
+                       <th>Company Type</th>
+				       <th>Status</th>
+                    </tr>    				
+                </table>
+            </div>
+               <button class="w3-button w3-red w3-section" onclick="document.getElementById('getroleModal').style.display='none'">Close <i class="fa fa-remove"></i></button>
+      </div>
+    </div>
+ </div>
+  
+  
+ <!-- List Resource Modal -->
+ <div id="listresourceModal" class="w3-modal">
+    <div class="w3-modal-content w3-animate-top ">
+        <header class="w3-container w3-dark-grey w3-center w3-padding-12"> 
+            <span onclick="document.getElementById('listresourceModal').style.display='none'" 
+            class="w3-button w3-dark-grey w3-xlarge w3-display-topright">×</span>
+            <h3 class="w3-wide"><i class="fa fa-suitcase w3-margin-right"></i>List Resource</h3>
+        </header>
+        <div class="w3-container w3-card-2"  >
+            <p><label for="provider_wallet_address"> Payable Wallet Address</label></p>
+            <input class="w3-input w3-border" type="text" id="provider_wallet_address" placeholder="0x00..">
+		    <p><label for="list_resource_volume"> Capacity (MW)</label></p>
+            <input class="w3-input w3-border" type="text" id="list_resource_volume" placeholder="100">
+		    <p><label for="list_date_from"> Date From</label></p>
+            <input class="w3-input w3-border" type="text" id="list_date_from" placeholder="eg: 28-06-2020" >
+		    <p><label for="list_date_to"> Date To</label></p>
+            <input class="w3-input w3-border" type="text" id="list_date_to" placeholder="eg: 30-06-2020" >
+		    <p><label for="list_time_from"> Time From</label></p>
+            <input class="w3-input w3-border" type="text" id="list_time_from" placeholder="20:00" >
+		    <p><label for="list_time_to"> Time To</label></p>
+            <input class="w3-input w3-border" type="text" id="list_time_to" placeholder="23:00">
+		    <p><label for="list_cost"> Price (EUR/MWh)</label></p>
+            <input class="w3-input w3-border" type="text" id="list_cost" placeholder="30">
+		    <p><label for="list_resource">Resource Type</label></p>
+            <input class="w3-input w3-border" type="text" id="list_resource" placeholder="solar..">
+            <p><label for="list_location"> Location</label></p>
+            <input class="w3-input w3-border" type="text" id="list_location" placeholder="Belgium">
+		    <p><label for="list_flag"> Set Status</label></p>
+		    <select class="w3-select w3-border" name="option">
+                <option value="" disabled selected>Choose</option>
+                <option value="true" id="list_flag">Active</option>
+                <option value="false" id="list_flag">Inactive</option>
+            </select> 
+            <button class="w3-button w3-block w3-dark-grey w3-padding-16 w3-section w3-right" onclick="App.registerResource()">List Resource <i class="fa fa-check"></i></button>
+            <button class="w3-button w3-red w3-section" onclick="document.getElementById('listresourceModal').style.display='none'">Close <i class="fa fa-remove"></i></button>
+      </div>
+    </div>
+</div>
+  
+  
+   <!-- Registered Entities-->
+<div id = "registeredEntities" class="w3-container sh" style = "display:none">
+    <div class="w3-container">
+        <table class="w3-table w3-striped w3-border" id = "getEntityTable"> 
+            <tr>
+                <th>En.Id</th>
+                <th>Wallet Address</th>
+                <th>Company Name</th>
+                <th>Location</th>
+                <th>Company Type</th>
+				<th>Status</th>
+            </tr>    				
+        </table>
+    </div>
+    <div class="w3-container" style = "width:50%;">
+        <p><label for="setrole_wallet_address">Entity Wallet Address</label></p>
+        <input class="w3-input w3-border" type="text" id="setrole_wallet_address" placeholder="0x00..">
+		<p><label for="set_roles"> Company Type</label></p>
+        <select class="w3-select w3-border" name="option" id="set_roles">
+            <option value="" disabled selected>Choose</option>
+            <option value="DSO" >DSO</option>
+            <option value="TSO">TSO</option>
+            <option value="Aggregator">Aggregator</option>
+        </select> 
+        <button class="w3-button w3-block w3-dark-grey w3-padding-16 w3-section w3-right" onclick="App.setRole()">Approve</button>
+	    <p></p>
+     </div>
+</div>
+
+
+  
+  <!-- View Resources Modal -->
+<div id="viewResourcesModal" class="w3-modal">
+    <div class="w3-modal-content w3-animate-top w3-card-4">
+         <header class="w3-container w3-dark-grey w3-center w3-padding-12"> 
+             <span onclick="document.getElementById('viewResourcesModal').style.display='none'" 
+             class="w3-button w3-dark-grey w3-xlarge w3-display-topright">×</span>
+             <h3 class="w3-wide">Resources</h3>
+         </header>
+	    <p></p>
+        <div class="w3-container">
+            <table class="w3-table w3-striped w3-border" id = "getResourceTable"> 
+                <tr>
+                    <th>Resource Id</th>
+				    <th>Company Name</th>
+                    <th>Capacity (MW)</th>
+                    <th>Date From</th>
+                    <th>Date To</th>
+                    <th>Time From</th>
+				    <th>Time To</th>
+				    <th>Price (EUR/MWh)</th>
+				    <th>Resource Type</th>
+				    <th>Location</th>
+				    <th>Status</th>
+                </tr>    				
+            </table>
+        </div><p></p>
+	    <div class="w3-row-padding">
+            <h3 class="w3-wide" style = "margin-bottom:30px; text-align:center">Request</h3>
+            <div class="w3-half">
+                <label>Resource Id</label>
+                <input class="w3-input w3-border" type="text" id = "req_rID" placeholder="101" style = "margin-bottom:30px">
+            </div>
+            <div class="w3-half">
+                <label>Capacity (MW)</label>
+                <input class="w3-input w3-border" type="text" id = "req_vol" placeholder="100" style = "margin-bottom:30px">
+            </div>
+            <div class="w3-half">
+                <label>Date From</label>
+                <input class="w3-input w3-border" type="text" id = "req_sd" placeholder="28-06-2020" style = "margin-bottom:30px">
+            </div>
+            <div class="w3-half">
+                <label>Date To</label>
+                <input class="w3-input w3-border" type="text" id = "req_ed" placeholder="30-06-2020" style = "margin-bottom:30px">
+            </div>
+            <div class="w3-half">
+                <label>Time From</label>
+                <input class="w3-input w3-border" type="text" id = "req_tf" placeholder="10:30" style = "margin-bottom:30px">
+            </div>
+            <div class="w3-half">
+                <label>Time To</label>
+                <input class="w3-input w3-border" type="text" id = "req_tt" placeholder="21:01" style = "margin-bottom:30px">
+            </div>
+            <div class="w3-half">
+                <label>Price (EUR/MWh)</label>
+                <input class="w3-input w3-border" type="text" id = "req_cos" placeholder="100" style = "margin-bottom:30px">
+            </div>
+            <div class="w3-half">
+                <button class="w3-button w3-block w3-red w3-padding-12" onclick="App.request()" style = "margin-top:28px; margin-bottom:30px">Request</button>
+            </div>
+        </div>  
+    </div>
+</div>
+  
+  
+<!-- Offer Resources Modal -->
+<div id="offerResourcesModal" class="w3-modal">
+    <div class="w3-modal-content w3-animate-top w3-card-4">
+        <header class="w3-container w3-dark-grey w3-center w3-padding-12"> 
+            <span onclick="document.getElementById('offerResourcesModal').style.display='none'" 
+            class="w3-button w3-dark-grey w3-xlarge w3-display-topright">×</span>
+               <h3 class="w3-wide">Offer Resource</h3>
+        </header>
+	    <p></p>
+        <div class="w3-container">
+            <table class="w3-table w3-striped w3-border" id = "getOfferTable"> 
+                <tr>
+				   <th>Request Id</th>
+                   <th>Resource Id</th>
+                   <th>Capacity (MW)</th>
+                   <th>Date From</th>
+                   <th>Date To</th>
+                   <th>Time From</th>
+				   <th>Time To</th>
+				   <th>Price (EUR/MWh)</th>
+				   <th>Status</th>
+                </tr>    				
+            </table>
+        </div>
+		<p></p>
+	    <div class="w3-row-padding">
+           <h3 class="w3-wide" style = "margin-bottom:30px; text-align:center">Offer</h3>
+            <div class="w3-half">
+               <label>Resource Id</label>
+               <input class="w3-input w3-border" type="text" id = "resreID" placeholder="101" style = "margin-bottom:30px">
+            </div>
+            <div class="w3-half">
+               <label>Capacity (MW)</label>
+               <input class="w3-input w3-border" type="text" id = "offerVol" placeholder="100" style = "margin-bottom:30px">
+            </div>
+            <div>
+                <button class="w3-button w3-block w3-red w3-padding-12 w3-center" onclick="App.offer()" style = "margin-top:20px; margin-bottom:30px;">Offer</button>
+            </div>
+        </div>
+    </div>
+</div>
+  
+  
+  <!-- Pay Modal -->
+ <div id="payModal" class="w3-modal">
+    <div class="w3-modal-content w3-animate-top w3-card-4">
+        <header class="w3-container w3-dark-grey w3-center w3-padding-12"> 
+            <span onclick="document.getElementById('payModal').style.display='none'" 
+            class="w3-button w3-dark-grey w3-xlarge w3-display-topright">×</span>
+            <h3 class="w3-wide">Pay</h3>
+        </header>
+        <div class=" w3-row-padding" style = "margin:10px">
+            <label style = "margin-bottom:10px">Requested Resource ID </label>
+            <input class="w3-input w3-border" type="text" id = "p_rID" placeholder="102">
+            <button class="w3-button w3-block w3-dark-grey w3-padding-16 w3-section w3-right" onclick="App. payID()">Get Seller Address</button>
+        </div>
+        <div class=" w3-row-padding" style = "margin-left:10px; margin-top:10px">
+            <label><b>Wallet Address : </b></label>
+            <span id="payee" />
+        </div>
+	    <div class=" w3-row-padding" style = "margin-left:10px; margin-top:10px">
+	        <label><b>Status : </b></label>
+            <span id="pur_ID" />
+        </div>
+        <div class="w3-container w3-row-padding">
+            <p></p>
+            <p><label for="sellerAddress">Seller Wallet Address</label></p>
+            <input class="w3-input w3-border" type="text" id="sellerAddress" placeholder="0x00..">
+            <button class="w3-button w3-block w3-red w3-padding-16 w3-section w3-right" onclick="App.pay()">Pay</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Footer -->
+<footer class="w3-center w3-light-grey w3-padding-64">
+  <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+</footer>
+ 
+<script>
+
+function myFunction() {
+  var x = document.getElementById("registeredEntities");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+
+</script>
+
+</body>
+</html>
