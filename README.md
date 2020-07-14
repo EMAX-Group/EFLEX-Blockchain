@@ -8,6 +8,6 @@ Go to the root folder and run the following commands:
 
 npm i
 
-#Start a development server
+<b>#Start a development server</b>
 
 npm run dev
